@@ -125,7 +125,7 @@ a:focus-visible {
 .hero-heading {
   margin: 22px 0 15px;
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(38px, 6vw, 62px);
+  font-size: clamp(40px, 11vw, 52px);
   font-weight: 500;
   line-height: 0.99;
   color: var(--wine-dark);
@@ -165,7 +165,7 @@ a:focus-visible {
   margin: 0 0 11px;
   color: var(--wine);
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(28px, 4vw, 38px);
+  font-size: 36px;
   font-weight: 600;
   line-height: 1.1;
 }
@@ -173,7 +173,7 @@ a:focus-visible {
 .parents {
   margin: 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 15px;
   line-height: 1.9;
 }
 
@@ -349,7 +349,7 @@ a:focus-visible {
 
 .countdown-item span {
   color: var(--gold);
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.5px;
 }
@@ -501,6 +501,7 @@ a:focus-visible {
   align-items: center;
   justify-content: center;
   width: min(100%, 900px);
+  min-height: 82vh;
   margin: 0 auto;
   padding: 45px 24px;
   overflow: hidden;
@@ -589,7 +590,7 @@ a:focus-visible {
 .intro-eyebrow {
   margin: 0 0 16px;
   color: #9d7b43;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 4px;
 }
@@ -598,7 +599,7 @@ a:focus-visible {
   margin: 0;
   color: #652632;
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(45px, 9vw, 72px);
+  font-size: clamp(48px, 11vw, 60px);
   font-weight: 500;
 }
 
@@ -611,7 +612,7 @@ a:focus-visible {
   margin: 16px 0 30px;
   color: #8b7166;
   font-family: "Cormorant Garamond", serif;
-  font-size: 20px;
+  font-size: 25px;
   font-style: italic;
 }
 
@@ -625,7 +626,7 @@ a:focus-visible {
   color: #fffaf0;
   background: linear-gradient(135deg, #813847, #59212d);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 1px;
 }
 
@@ -637,7 +638,7 @@ a:focus-visible {
 .intro-date {
   margin: 28px 0 0;
   color: #a3875e;
-  font-size: 10px;
+  c: 13px;
   letter-spacing: 3px;
 }
 
@@ -863,3 +864,5 @@ a:focus-visible {
     padding: 24px 16px;
   }
 }
+
+
