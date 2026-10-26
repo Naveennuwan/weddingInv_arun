@@ -257,250 +257,239 @@ export default function App() {
         <WeddingIntro key="intro" onOpen={() => setOpened(true)} />
       ) : (
         <motion.div
-          key="wedding-card"
+          // key="wedding-card"
           className="invitation-card"
           initial={{ opacity: 0, y: 35, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.9, ease: "easeOut" }}
         >
-          {/* <main className="invitation"> */}
-          {/* <div className="page-glow" /> */}
+          <FloatingPetals />
+          <div className="gold-border">
+            <header className="top-ornament">
+              <span className="ornament-line" />
+              <Flower2 size={23} strokeWidth={1.2} />
+              <span className="ornament-line" />
+            </header>
 
-          <motion.div
-            className="invitation-card"
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          >
-            <FloatingPetals />
-            <div className="gold-border">
-              <header className="top-ornament">
-                <span className="ornament-line" />
-                <Flower2 size={23} strokeWidth={1.2} />
-                <span className="ornament-line" />
-              </header>
+            <p className="eyebrow">A CELEBRATION OF LOVE</p>
 
-              <p className="eyebrow">A CELEBRATION OF LOVE</p>
+            <div className="temple-symbol">
+              <Sparkles size={16} />
+              <span>With the blessings of the divine</span>
+              <Sparkles size={16} />
+            </div>
 
-              <div className="temple-symbol">
-                <Sparkles size={16} />
-                <span>With the blessings of the divine</span>
-                <Sparkles size={16} />
+            <h1 className="hero-heading">
+              Two hearts,
+              <br />
+              <span>one beautiful journey</span>
+            </h1>
+
+            <p className="invitation-message">
+              Together with their families, we joyfully invite you to witness
+              and bless the sacred union of
+            </p>
+
+            <section className="couple">
+              <motion.div
+                className="person"
+                initial={{ opacity: 0, x: -25 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.35, duration: 0.8 }}
+              >
+                <p className="person-label">THE GROOM</p>
+                <h2>Arun Vijayan</h2>
+                <p className="parents">
+                  Son of
+                  <br />
+                  Vijaya Kumar &amp; Udayakumari
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="ampersand"
+                animate={{ y: [0, -6, 0], scale: [1, 1.08, 1] }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <Heart size={30} strokeWidth={1.1} />
+                <span>&amp;</span>
+              </motion.div>
+
+              <motion.div
+                className="person"
+                initial={{ opacity: 0, x: 25 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.55, duration: 0.8 }}
+              >
+                <p className="person-label">THE BRIDE</p>
+                <h2>Pooja VS</h2>
+                <p className="parents">
+                  Daughter of
+                  <br />
+                  V.Salim Raj Mohan &amp; Sreeja Jayadevan
+                </p>
+              </motion.div>
+            </section>
+
+            <div className="divider-ornament">
+              <span />
+              <Flower2 size={19} strokeWidth={1.2} />
+              <span />
+            </div>
+
+            <section className="event-details">
+              <p className="section-kicker">THE WEDDING CEREMONY</p>
+
+              <div className="date-display">
+                <motion.span
+                  className="date-day"
+                  initial={{ opacity: 0, scale: 0.6 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, type: "spring" }}
+                >
+                  24
+                </motion.span>
+                <div className="date-month">
+                  <span>JANUARY</span>
+                  <strong>2027</strong>
+                </div>
               </div>
 
-              <h1 className="hero-heading">
-                Two hearts,
-                <br />
-                <span>one beautiful journey</span>
-              </h1>
+              <p className="weekday">SUNDAY · 24 JANUARY 2027</p>
 
-              <p className="invitation-message">
-                Together with their families, we joyfully invite you to witness
-                and bless the sacred union of
+              <div className="detail-row">
+                <div className="detail-icon">
+                  <Clock3 size={21} />
+                </div>
+                <div>
+                  <span className="detail-label">THALIKETTU</span>
+                  <strong>8:00 AM</strong>
+                </div>
+              </div>
+
+              <div className="detail-row">
+                <div className="detail-icon">
+                  <MapPin size={21} />
+                </div>
+                <div>
+                  <span className="detail-label">VENUE</span>
+                  <strong>Guruvayoor Temple</strong>
+                  <p>Guruvayur, Kerala, India</p>
+                </div>
+              </div>
+
+              <a
+                className="map-button"
+                href="https://www.google.com/maps/search/?api=1&query=Guruvayur+Sri+Krishna+Temple+Kerala"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <MapPin size={17} />
+                View Location
+                <ExternalLink size={15} />
+              </a>
+            </section>
+
+            <section className="countdown-section">
+              <p className="section-kicker">COUNTING DOWN TO FOREVER</p>
+              <div className="countdown">
+                {[
+                  ["DAYS", countdown.days],
+                  ["HOURS", countdown.hours],
+                  ["MINUTES", countdown.minutes],
+                  ["SECONDS", countdown.seconds],
+                ].map(([label, value]) => (
+                  <div className="countdown-item" key={label}>
+                    <strong>{String(value).padStart(2, "0")}</strong>
+                    <span>{label}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="rsvp-section">
+              <p className="section-kicker">KINDLY RESPOND</p>
+
+              <h2 className="rsvp-title">Will You Join Us?</h2>
+
+              <p className="rsvp-description">
+                Please let us know your name and how many guests will be
+                attending.
               </p>
 
-              <section className="couple">
-                <motion.div
-                  className="person"
-                  initial={{ opacity: 0, x: -25 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.35, duration: 0.8 }}
-                >
-                  <p className="person-label">THE GROOM</p>
-                  <h2>Arun Vijayan</h2>
-                  <p className="parents">
-                    Son of
-                    <br />
-                    Vijaya Kumar &amp; Udayakumari
-                  </p>
-                </motion.div>
-
-                <motion.div
-                  className="ampersand"
-                  animate={{ y: [0, -6, 0], scale: [1, 1.08, 1] }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <Heart size={30} strokeWidth={1.1} />
-                  <span>&amp;</span>
-                </motion.div>
-
-                <motion.div
-                  className="person"
-                  initial={{ opacity: 0, x: 25 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.55, duration: 0.8 }}
-                >
-                  <p className="person-label">THE BRIDE</p>
-                  <h2>Pooja VS</h2>
-                  <p className="parents">
-                    Daughter of
-                    <br />
-                    Raj Moohan &amp; Sreeja
-                  </p>
-                </motion.div>
-              </section>
-
-              <div className="divider-ornament">
-                <span />
-                <Flower2 size={19} strokeWidth={1.2} />
-                <span />
-              </div>
-
-              <section className="event-details">
-                <p className="section-kicker">THE WEDDING CEREMONY</p>
-
-                <div className="date-display">
-                  <motion.span
-                    className="date-day"
-                    initial={{ opacity: 0, scale: 0.6 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, type: "spring" }}
-                  >
-                    24
-                  </motion.span>
-                  <div className="date-month">
-                    <span>JANUARY</span>
-                    <strong>2027</strong>
-                  </div>
+              <form className="rsvp-form" onSubmit={submitRsvp}>
+                <div className="rsvp-field">
+                  <label htmlFor="guestName">Your Name</label>
+                  <input
+                    id="guestName"
+                    type="text"
+                    placeholder="Enter your full name"
+                    value={guestName}
+                    onChange={(event) => setGuestName(event.target.value)}
+                    maxLength={150}
+                    autoComplete="name"
+                    required
+                    disabled={isSubmitting}
+                  />
                 </div>
 
-                <p className="weekday">SUNDAY · 24 JANUARY 2027</p>
-
-                <div className="detail-row">
-                  <div className="detail-icon">
-                    <Clock3 size={21} />
-                  </div>
-                  <div>
-                    <span className="detail-label">THALIKETTU</span>
-                    <strong>8:00 AM</strong>
-                  </div>
-                </div>
-
-                <div className="detail-row">
-                  <div className="detail-icon">
-                    <MapPin size={21} />
-                  </div>
-                  <div>
-                    <span className="detail-label">VENUE</span>
-                    <strong>Guruvayoor Temple</strong>
-                    <p>Guruvayur, Kerala, India</p>
-                  </div>
-                </div>
-
-                <a
-                  className="map-button"
-                  href="https://www.google.com/maps/search/?api=1&query=Guruvayur+Sri+Krishna+Temple+Kerala"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <MapPin size={17} />
-                  View Location
-                  <ExternalLink size={15} />
-                </a>
-              </section>
-
-              <section className="countdown-section">
-                <p className="section-kicker">COUNTING DOWN TO FOREVER</p>
-                <div className="countdown">
-                  {[
-                    ["DAYS", countdown.days],
-                    ["HOURS", countdown.hours],
-                    ["MINUTES", countdown.minutes],
-                    ["SECONDS", countdown.seconds],
-                  ].map(([label, value]) => (
-                    <div className="countdown-item" key={label}>
-                      <strong>{String(value).padStart(2, "0")}</strong>
-                      <span>{label}</span>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              <section className="rsvp-section">
-                <p className="section-kicker">KINDLY RESPOND</p>
-
-                <h2 className="rsvp-title">Will You Join Us?</h2>
-
-                <p className="rsvp-description">
-                  Please let us know your name and how many guests will be
-                  attending.
-                </p>
-
-                <form className="rsvp-form" onSubmit={submitRsvp}>
-                  <div className="rsvp-field">
-                    <label htmlFor="guestName">Your Name</label>
-                    <input
-                      id="guestName"
-                      type="text"
-                      placeholder="Enter your full name"
-                      value={guestName}
-                      onChange={(event) => setGuestName(event.target.value)}
-                      maxLength={150}
-                      autoComplete="name"
-                      required
-                      disabled={isSubmitting}
-                    />
-                  </div>
-
-                  <div className="rsvp-field">
-                    <label htmlFor="guestPax">Number of Guests</label>
-                    <select
-                      id="guestPax"
-                      value={guestPax}
-                      onChange={(event) => setGuestPax(event.target.value)}
-                      required
-                      disabled={isSubmitting}
-                    >
-                      {Array.from({ length: 30 }, (_, index) => index + 1).map(
-                        (pax) => (
-                          <option key={pax} value={pax}>
-                            {pax} {pax === 1 ? "Guest" : "Guests"}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="rsvp-submit"
+                <div className="rsvp-field">
+                  <label htmlFor="guestPax">Number of Guests</label>
+                  <select
+                    id="guestPax"
+                    value={guestPax}
+                    onChange={(event) => setGuestPax(event.target.value)}
+                    required
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? "Submitting..." : "Confirm Attendance"}
-                  </button>
+                    {Array.from({ length: 30 }, (_, index) => index + 1).map(
+                      (pax) => (
+                        <option key={pax} value={pax}>
+                          {pax} {pax === 1 ? "Guest" : "Guests"}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
 
-                  {rsvpStatus && (
-                    <p className="rsvp-status" role="status" aria-live="polite">
-                      {rsvpStatus}
-                    </p>
-                  )}
-                </form>
-              </section>
+                <button
+                  type="submit"
+                  className="rsvp-submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Submitting..." : "Confirm Attendance"}
+                </button>
 
-              <footer className="invitation-footer">
-                <p className="footer-message">
-                  Your presence and blessings will make our day truly special.
-                </p>
+                {rsvpStatus && (
+                  <p className="rsvp-status" role="status" aria-live="polite">
+                    {rsvpStatus}
+                  </p>
+                )}
+              </form>
+            </section>
 
-                <p className="footer-script">With love &amp; gratitude</p>
+            <footer className="invitation-footer">
+              <p className="footer-message">
+                Your presence and blessings will make our day truly special.
+              </p>
 
-                {/* <button className="share-button" onClick={shareInvitation}>
+              <p className="footer-script">With love &amp; gratitude</p>
+
+              {/* <button className="share-button" onClick={shareInvitation}>
                   <Share2 size={17} />
                   {copied ? "Link Copied!" : "Share Invitation"}
                 </button> */}
 
-                <p className="footer-note">
-                  MADE WITH LOVE <Heart size={12} fill="currentColor" />
-                </p>
-              </footer>
-            </div>
-          </motion.div>
-          {/* </main> */}
+              <p className="footer-note">
+                MADE WITH LOVE <Heart size={12} fill="currentColor" />
+              </p>
+            </footer>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

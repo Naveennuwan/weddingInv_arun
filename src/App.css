@@ -63,7 +63,7 @@ a:focus-visible {
 .invitation-card {
   position: relative;
   width: 100%;
-  max-width: 790px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 10px;
   background: #e8d3a7;
@@ -500,8 +500,7 @@ a:focus-visible {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: min(100%, 620px);
-  min-height: 85vh;
+  width: min(100%, 900px);
   margin: 0 auto;
   padding: 45px 24px;
   overflow: hidden;
