@@ -866,3 +866,55 @@ a:focus-visible {
 }
 
 
+/* Wedding background music control */
+.music-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 11px 16px;
+  border: 1px solid #d8bd86;
+  border-radius: 30px;
+
+  background: rgba(255, 250, 239, 0.96);
+  color: #8b6632;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+
+  box-shadow: 0 5px 18px rgba(96, 59, 36, 0.16);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.music-toggle > span:first-child {
+  font-size: 21px;
+  line-height: 1;
+}
+
+.music-toggle:hover {
+  background: #f4e5c7;
+  transform: translateY(-2px);
+}
+
+.music-toggle:focus-visible {
+  outline: 2px solid #8b6632;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .music-toggle {
+    right: 12px;
+    bottom: 12px;
+    padding: 10px 13px;
+    font-size: 12px;
+  }
+}

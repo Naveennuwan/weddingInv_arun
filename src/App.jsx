@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   CalendarDays,
@@ -109,7 +109,7 @@ function WeddingIntro({ onOpen }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
       >
-        <img src="/images/gr.jpg" alt="Pooja and Arun at Guruvayoor Temple" />
+        <img src="/images/arun_pooja.jpg" alt="Pooja and Arun at Guruvayoor Temple" />
       </motion.div>
 
       <motion.h1
@@ -155,13 +155,15 @@ function WeddingIntro({ onOpen }) {
 
 export default function App() {
   const [countdown, setCountdown] = useState(getCountdown);
-  const [copied, setCopied] = useState(false);
   const [opened, setOpened] = useState(false);
 
   const [guestName, setGuestName] = useState("");
   const [guestPax, setGuestPax] = useState("1");
   const [rsvpStatus, setRsvpStatus] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const audioRef = useRef(null);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -171,27 +173,42 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  async function shareInvitation() {
-    const shareData = {
-      title: "Pooja & Arun | Wedding Invitation",
-      text: "With love and blessings, join us for the wedding of Pooja and Arun on 24 January at Guruvayoor Temple.",
-      url: window.location.href,
-    };
+
+  async function handleOpenInvitation() {
+    // Open the invitation and start music directly from the button click.
+    setOpened(true);
+
+    const audio = audioRef.current;
+    if (!audio) return;
 
     try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-      } else {
-        await navigator.clipboard.writeText(
-          `${shareData.text}\n${shareData.url}`
-        );
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2500);
-      }
+      audio.volume = 0.45;
+      await audio.play();
+      setIsMusicPlaying(true);
     } catch (error) {
-      if (error.name !== "AbortError") {
-        window.prompt("Copy this invitation link:", window.location.href);
+      setIsMusicPlaying(false);
+      console.warn(
+        "Wedding music could not start. Check that public/music/song.mp3 exists.",
+        error
+      );
+    }
+  }
+
+  async function toggleMusic() {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (audio.paused) {
+      try {
+        await audio.play();
+        setIsMusicPlaying(true);
+      } catch (error) {
+        setIsMusicPlaying(false);
+        console.log("Unable to play music:", error);
       }
+    } else {
+      audio.pause();
+      setIsMusicPlaying(false);
     }
   }
 
@@ -252,246 +269,265 @@ export default function App() {
   }
 
   return (
-    <AnimatePresence mode="wait">
-      {!opened ? (
-        <WeddingIntro key="intro" onOpen={() => setOpened(true)} />
-      ) : (
-        <motion.div
-          // key="wedding-card"
-          className="invitation-card"
-          initial={{ opacity: 0, y: 35, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
-        >
-          <FloatingPetals />
-          <div className="gold-border">
-            <header className="top-ornament">
-              <span className="ornament-line" />
-              <Flower2 size={23} strokeWidth={1.2} />
-              <span className="ornament-line" />
-            </header>
+    <>
+      <audio
+        ref={audioRef}
+        src="/music/song.mp3"
+        loop
+        preload="auto"
+        onPlay={() => setIsMusicPlaying(true)}
+        onPause={() => setIsMusicPlaying(false)}
+      />
+      <AnimatePresence mode="wait">
+        {!opened ? (
+          <WeddingIntro key="intro" onOpen={handleOpenInvitation} />
+        ) : (
+          <motion.div
+            // key="wedding-card"
+            className="invitation-card"
+            initial={{ opacity: 0, y: 35, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+          >
+            <FloatingPetals />
+            <button
+              type="button"
+              className="music-toggle"
+              onClick={toggleMusic}
+              aria-label={
+                isMusicPlaying ? "Pause wedding music" : "Play wedding music"
+              }
+              title={isMusicPlaying ? "Pause music" : "Play music"}
+            >
+              <span aria-hidden="true">{isMusicPlaying ? "♫" : "♪"}</span>
+              <span className="music-label">
+                {isMusicPlaying ? "Music On" : "Music Off"}
+              </span>
+            </button>
+            <div className="gold-border">
+              <header className="top-ornament">
+                <span className="ornament-line" />
+                <Flower2 size={23} strokeWidth={1.2} />
+                <span className="ornament-line" />
+              </header>
 
-            <p className="eyebrow">A CELEBRATION OF LOVE</p>
+              <p className="eyebrow">A CELEBRATION OF LOVE</p>
 
-            <div className="temple-symbol">
-              <Sparkles size={16} />
-              <span>With the blessings of the divine</span>
-              <Sparkles size={16} />
-            </div>
-
-            <h1 className="hero-heading">
-              Two hearts,
-              <br />
-              <span>one beautiful journey</span>
-            </h1>
-
-            <p className="invitation-message">
-              Together with their families, we joyfully invite you to witness
-              and bless the sacred union of
-            </p>
-
-            <section className="couple">
-              <motion.div
-                className="person"
-                initial={{ opacity: 0, x: -25 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.35, duration: 0.8 }}
-              >
-                <p className="person-label">THE GROOM</p>
-                <h2>Arun Vijayan</h2>
-                <p className="parents">
-                  Son of
-                  <br />
-                  Vijaya Kumar &amp; Udayakumari
-                </p>
-              </motion.div>
-
-              <motion.div
-                className="ampersand"
-                animate={{ y: [0, -6, 0], scale: [1, 1.08, 1] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <Heart size={30} strokeWidth={1.1} />
-                <span>&amp;</span>
-              </motion.div>
-
-              <motion.div
-                className="person"
-                initial={{ opacity: 0, x: 25 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.55, duration: 0.8 }}
-              >
-                <p className="person-label">THE BRIDE</p>
-                <h2>Pooja VS</h2>
-                <p className="parents">
-                  Daughter of
-                  <br />
-                  V.Salim Raj Mohan &amp; Sreeja Jayadevan
-                </p>
-              </motion.div>
-            </section>
-
-            <div className="divider-ornament">
-              <span />
-              <Flower2 size={19} strokeWidth={1.2} />
-              <span />
-            </div>
-
-            <section className="event-details">
-              <p className="section-kicker">THE WEDDING CEREMONY</p>
-
-              <div className="date-display">
-                <motion.span
-                  className="date-day"
-                  initial={{ opacity: 0, scale: 0.6 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, type: "spring" }}
-                >
-                  24
-                </motion.span>
-                <div className="date-month">
-                  <span>JANUARY</span>
-                  <strong>2027</strong>
-                </div>
+              <div className="temple-symbol">
+                <Sparkles size={16} />
+                <span>With the blessings of the divine</span>
+                <Sparkles size={16} />
               </div>
 
-              <p className="weekday">SUNDAY · 24 JANUARY 2027</p>
+              <h1 className="hero-heading">
+                Two hearts,
+                <br />
+                <span>one beautiful journey</span>
+              </h1>
 
-              <div className="detail-row">
-                <div className="detail-icon">
-                  <Clock3 size={21} />
-                </div>
-                <div>
-                  <span className="detail-label">THALIKETTU</span>
-                  <strong>8:00 AM</strong>
-                </div>
-              </div>
-
-              <div className="detail-row">
-                <div className="detail-icon">
-                  <MapPin size={21} />
-                </div>
-                <div>
-                  <span className="detail-label">VENUE</span>
-                  <strong>Guruvayoor Temple</strong>
-                  <p>Guruvayur, Kerala, India</p>
-                </div>
-              </div>
-
-              <a
-                className="map-button"
-                href="https://www.google.com/maps/search/?api=1&query=Guruvayur+Sri+Krishna+Temple+Kerala"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <MapPin size={17} />
-                View Location
-                <ExternalLink size={15} />
-              </a>
-            </section>
-
-            <section className="countdown-section">
-              <p className="section-kicker">COUNTING DOWN TO FOREVER</p>
-              <div className="countdown">
-                {[
-                  ["DAYS", countdown.days],
-                  ["HOURS", countdown.hours],
-                  ["MINUTES", countdown.minutes],
-                  ["SECONDS", countdown.seconds],
-                ].map(([label, value]) => (
-                  <div className="countdown-item" key={label}>
-                    <strong>{String(value).padStart(2, "0")}</strong>
-                    <span>{label}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="rsvp-section">
-              <p className="section-kicker">KINDLY RESPOND</p>
-
-              <h2 className="rsvp-title">Will You Join Us?</h2>
-
-              <p className="rsvp-description">
-                Please let us know your name and how many guests will be
-                attending.
+              <p className="invitation-message">
+                Together with their families, we joyfully invite you to witness
+                and bless the sacred union of
               </p>
 
-              <form className="rsvp-form" onSubmit={submitRsvp}>
-                <div className="rsvp-field">
-                  <label htmlFor="guestName">Your Name</label>
-                  <input
-                    id="guestName"
-                    type="text"
-                    placeholder="Enter your full name"
-                    value={guestName}
-                    onChange={(event) => setGuestName(event.target.value)}
-                    maxLength={150}
-                    autoComplete="name"
-                    required
-                    disabled={isSubmitting}
-                  />
+              <section className="couple">
+                <motion.div
+                  className="person"
+                  initial={{ opacity: 0, x: -25 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.35, duration: 0.8 }}
+                >
+                  <p className="person-label">THE GROOM</p>
+                  <h2>Arun Vijayan</h2>
+                  <p className="parents">
+                    Son of
+                    <br />
+                    Vijaya Kumar &amp; Udayakumari
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  className="ampersand"
+                  animate={{ y: [0, -6, 0], scale: [1, 1.08, 1] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <Heart size={30} strokeWidth={1.1} />
+                  <span>&amp;</span>
+                </motion.div>
+
+                <motion.div
+                  className="person"
+                  initial={{ opacity: 0, x: 25 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.55, duration: 0.8 }}
+                >
+                  <p className="person-label">THE BRIDE</p>
+                  <h2>Pooja VS</h2>
+                  <p className="parents">
+                    Daughter of
+                    <br />
+                    Salim Raj Mohan &amp; Sreeja J
+                  </p>
+                </motion.div>
+              </section>
+
+              <div className="divider-ornament">
+                <span />
+                <Flower2 size={19} strokeWidth={1.2} />
+                <span />
+              </div>
+
+              <section className="event-details">
+                <p className="section-kicker">THE WEDDING CEREMONY</p>
+
+                <div className="date-display">
+                  <motion.span
+                    className="date-day"
+                    initial={{ opacity: 0, scale: 0.6 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, type: "spring" }}
+                  >
+                    24
+                  </motion.span>
+                  <div className="date-month">
+                    <span>JANUARY</span>
+                    <strong>2027</strong>
+                  </div>
                 </div>
 
-                <div className="rsvp-field">
-                  <label htmlFor="guestPax">Number of Guests</label>
-                  <select
-                    id="guestPax"
-                    value={guestPax}
-                    onChange={(event) => setGuestPax(event.target.value)}
-                    required
+                <p className="weekday">SUNDAY · 24 JANUARY 2027</p>
+
+                <div className="detail-row">
+                  <div className="detail-icon">
+                    <Clock3 size={21} />
+                  </div>
+                  <div>
+                    <span className="detail-label">THALIKETTU</span>
+                    <strong>8:00 AM</strong>
+                  </div>
+                </div>
+
+                <div className="detail-row">
+                  <div className="detail-icon">
+                    <MapPin size={21} />
+                  </div>
+                  <div>
+                    <span className="detail-label">VENUE</span>
+                    <strong>Guruvayoor Temple</strong>
+                    <p>Guruvayur, Kerala, India</p>
+                  </div>
+                </div>
+
+                <a
+                  className="map-button"
+                  href="https://www.google.com/maps/search/?api=1&query=Guruvayur+Sri+Krishna+Temple+Kerala"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <MapPin size={17} />
+                  View Location
+                  <ExternalLink size={15} />
+                </a>
+              </section>
+
+              <section className="countdown-section">
+                <p className="section-kicker">COUNTING DOWN TO FOREVER</p>
+                <div className="countdown">
+                  {[
+                    ["DAYS", countdown.days],
+                    ["HOURS", countdown.hours],
+                    ["MINUTES", countdown.minutes],
+                    ["SECONDS", countdown.seconds],
+                  ].map(([label, value]) => (
+                    <div className="countdown-item" key={label}>
+                      <strong>{String(value).padStart(2, "0")}</strong>
+                      <span>{label}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <section className="rsvp-section">
+                <p className="section-kicker">KINDLY RESPOND</p>
+
+                <h2 className="rsvp-title">Will You Join Us?</h2>
+
+                <p className="rsvp-description">
+                  Please let us know your name and how many guests will be
+                  attending.
+                </p>
+
+                <form className="rsvp-form" onSubmit={submitRsvp}>
+                  <div className="rsvp-field">
+                    <label htmlFor="guestName">Your Name</label>
+                    <input
+                      id="guestName"
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={guestName}
+                      onChange={(event) => setGuestName(event.target.value)}
+                      maxLength={150}
+                      autoComplete="name"
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  {/* <div className="rsvp-field">
+                    <label htmlFor="guestPax">Number of Guests</label>
+                    <select
+                      id="guestPax"
+                      value={guestPax}
+                      onChange={(event) => setGuestPax(event.target.value)}
+                      required
+                      disabled={isSubmitting}
+                    >
+                      {Array.from({ length: 30 }, (_, index) => index + 1).map(
+                        (pax) => (
+                          <option key={pax} value={pax}>
+                            {pax} {pax === 1 ? "Guest" : "Guests"}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </div> */}
+
+                  <button
+                    type="submit"
+                    className="rsvp-submit"
                     disabled={isSubmitting}
                   >
-                    {Array.from({ length: 30 }, (_, index) => index + 1).map(
-                      (pax) => (
-                        <option key={pax} value={pax}>
-                          {pax} {pax === 1 ? "Guest" : "Guests"}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </div>
+                    {isSubmitting ? "Submitting..." : "Confirm Attendance"}
+                  </button>
 
-                <button
-                  type="submit"
-                  className="rsvp-submit"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Submitting..." : "Confirm Attendance"}
-                </button>
+                  {rsvpStatus && (
+                    <p className="rsvp-status" role="status" aria-live="polite">
+                      {rsvpStatus}
+                    </p>
+                  )}
+                </form>
+              </section>
 
-                {rsvpStatus && (
-                  <p className="rsvp-status" role="status" aria-live="polite">
-                    {rsvpStatus}
-                  </p>
-                )}
-              </form>
-            </section>
+              <footer className="invitation-footer">
+                <p className="footer-message">
+                  Your presence and blessings will make our day truly special.
+                </p>
 
-            <footer className="invitation-footer">
-              <p className="footer-message">
-                Your presence and blessings will make our day truly special.
-              </p>
+                <p className="footer-script">With love &amp; gratitude</p>
 
-              <p className="footer-script">With love &amp; gratitude</p>
-
-              {/* <button className="share-button" onClick={shareInvitation}>
-                  <Share2 size={17} />
-                  {copied ? "Link Copied!" : "Share Invitation"}
-                </button> */}
-
-              <p className="footer-note">
-                MADE WITH LOVE <Heart size={12} fill="currentColor" />
-              </p>
-            </footer>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+                <p className="footer-note">
+                  MADE WITH LOVE <Heart size={12} fill="currentColor" />
+                </p>
+              </footer>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
