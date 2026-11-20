@@ -148,7 +148,7 @@ function WeddingIntro({ onOpen }) {
         <span>✧</span>
       </motion.button>
 
-      <p className="intro-date">26 · JANUARY · 2027</p>
+      <p className="intro-date">24 · JANUARY · 2027</p>
     </motion.div>
   );
 }
@@ -382,7 +382,7 @@ export default function App() {
               </div>
 
               <section className="event-details">
-                <p className="section-kicker">THE RECEPTION CEREMONY</p>
+                <p className="section-kicker">THE WEDDING CEREMONY</p>
 
                 <div className="date-display">
                   <motion.span
@@ -392,7 +392,7 @@ export default function App() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, type: "spring" }}
                   >
-                    26
+                    24
                   </motion.span>
                   <div className="date-month">
                     <span>JANUARY</span>
@@ -400,15 +400,15 @@ export default function App() {
                   </div>
                 </div>
 
-                <p className="weekday">SUNDAY · 26 JANUARY 2027</p>
+                <p className="weekday">SUNDAY · 24 JANUARY 2027</p>
 
                 <div className="detail-row">
                   <div className="detail-icon">
                     <Clock3 size={21} />
                   </div>
                   <div>
-                    <span className="detail-label">RECEPTION</span>
-                    <strong>5:00 PM - 9:00 PM</strong>
+                    <span className="detail-label">THALIKETTU</span>
+                    <strong>8:00 AM</strong>
                   </div>
                 </div>
 
@@ -418,14 +418,14 @@ export default function App() {
                   </div>
                   <div>
                     <span className="detail-label">VENUE</span>
-                    <strong>Vision Convention centre</strong>
-                    <p>Karakulam,Trivandrum</p>
+                    <strong>Guruvayoor Temple</strong>
+                    <p>Guruvayur, Kerala, India</p>
                   </div>
                 </div>
 
                 <a
                   className="map-button"
-                  href="https://maps.app.goo.gl/invPEdrJft2uGxiA8?g_st=iwb"
+                  href="https://www.google.com/maps/search/?api=1&query=Guruvayur+Sri+Krishna+Temple+Kerala"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -464,11 +464,11 @@ export default function App() {
 
                 <form className="rsvp-form" onSubmit={submitRsvp}>
                   <div className="rsvp-field">
-                    <label htmlFor="guestName">Your wishes</label>
+                    <label htmlFor="guestName">Your Name</label>
                     <input
                       id="guestName"
                       type="text"
-                      placeholder="Enter your wishs for the couple"
+                      placeholder="Enter your full name"
                       value={guestName}
                       onChange={(event) => setGuestName(event.target.value)}
                       maxLength={150}
@@ -502,7 +502,7 @@ export default function App() {
                     className="rsvp-submit"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? "Submitting..." : "submit"}
+                    {isSubmitting ? "Submitting..." : "Confirm Attendance"}
                   </button>
 
                   {rsvpStatus && (
